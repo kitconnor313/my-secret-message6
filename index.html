@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>母亲节快乐 - 妈妈</title>
+    <style>
+        :root {
+            --bg-start: #fde8ec;
+            --bg-mid: #fce4ec;
+            --bg-end: #f8d8e0;
+            --pink-light: #ffc2cd;
+            --pink: #f48fb1;
+            --pink-deep: #e85d75;
+            --rose: #d4456a;
+            --rose-dark: #b8304f;
+            --text-dark: #5c2d3e;
+            --text-gold: #b8735b;
+            --white: #fff5f6;
+            --leaf-green: #7a9a7e;
+            --leaf-dark: #5c7a60;
+            --heart-red: #e63946;
+            --gold: #d4a574;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(170deg, #fde8ec 0%, #fce0e8 15%, #f8d8e3 30%, #fce4ec 50%, #fde8f0 65%, #f9dbE2 80%, #fde8ec 100%);
+            background-attachment: fixed;
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans SC', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        /* 背景光斑 */
+        .bg-sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .sparkle {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            opacity: 0;
+            animation: sparkleFloat 6s ease-in-out infinite;
+        }
+        .sparkle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+            animation-duration: 5.5s;
+        }
+        .sparkle:nth-child(2) {
+            width: 3px;
+            height: 3px;
+            top: 25%;
+            left: 75%;
+            animation-delay: 1.2s;
+            animation-duration: 6.2s;
+        }
+        .sparkle:nth-child(3) {
+            width: 5px;
+            height: 5px;
+            top: 60%;
+            left: 20%;
+            animation-delay: 2.5s;
+            animation-duration: 5.8s;
+        }
+        .sparkle:nth-child(4) {
+            width: 3px;
+            height: 3px;
+            top: 70%;
+            left: 80%;
+            animation-delay: 0.7s;
+            animation-duration: 7s;
+        }
+        .sparkle:nth-child(5) {
+            width: 4px;
+            height: 4px;
+            top: 40%;
+            left: 50%;
+            animation-delay: 3.2s;
+            animation-duration: 6.5s;
+        }
+        .sparkle:nth-child(6) {
+            width: 3px;
+            height: 3px;
+            top: 15%;
+            left: 45%;
+            animation-delay: 4.1s;
+            animation-duration: 5.3s;
+        }
+        .sparkle:nth-child(7) {
+            width: 5px;
+            height: 5px;
+            top: 80%;
+            left: 55%;
+            animation-delay: 1.8s;
+            animation-duration: 6.8s;
+        }
+        .sparkle:nth-child(8) {
+            width: 3px;
+            height: 3px;
+            top: 35%;
+            left: 30%;
+            animation-delay: 2.9s;
+            animation-duration: 5.1s;
+        }
+        .sparkle:nth-child(9) {
+            width: 4px;
+            height: 4px;
+            top: 55%;
+            left: 65%;
+            animation-delay: 0.3s;
+            animation-duration: 7.2s;
+        }
+        .sparkle:nth-child(10) {
+            width: 3px;
+            height: 3px;
+            top: 20%;
+            left: 88%;
+            animation-delay: 3.7s;
+            animation-duration: 5.9s;
+        }
+
+        @keyframes sparkleFloat {
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            15% {
+                opacity: 0.8;
+                transform: translateY(-15px) scale(1.4);
+            }
+            30% {
+                opacity: 0.3;
+                transform: translateY(-25px) scale(0.9);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-10px) scale(1.2);
+            }
+            70% {
+                opacity: 0.1;
+                transform: translateY(-30px) scale(0.6);
+            }
+            90% {
+                opacity: 0.5;
+                transform: translateY(-5px) scale(1);
+            }
+        }
+
+        /* Canvas 飘落花瓣 */
+        #petalCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* 主容器 */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* 花朵容器 */
+        .flowers-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ========== 康乃馨花朵 CSS ========== */
+        .carnation {
+            position: absolute;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 4px 12px rgba(180, 80, 100, 0.25));
+        }
+        .carnation:hover {
+            transform: scale(1.12) !important;
+            filter: drop-shadow(0 8px 20px rgba(180, 80, 100, 0.4));
+            z-index: 10 !important;
+        }
+        .carnation:active {
+            transform: scale(1.05) !important;
+        }
+
+        /* 花茎 */
+        .carnation .stem-wrap {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 90px;
+            z-index: 0;
+        }
+        .carnation .stem {
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #6b8f71, #4a6e50);
+            border-radius: 2px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .carnation .stem::after {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: -6px;
+            width: 16px;
+            height: 3px;
+            background: #6b8f71;
+            border-radius: 2px;
+            transform: rotate(-30deg);
+        }
+        .carnation .stem::before {
+            content: '';
+            position: absolute;
+            top: 45%;
+            right: -6px;
+            width: 16px;
+            height: 3px;
+            background: #5c8062;
+            border-radius: 2px;
+            transform: rotate(25deg);
+        }
+
+        /* 花头 */
+        .carnation .bloom {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            z-index: 1;
+        }
+        /* 花瓣层通用 */
+        .carnation .petal-layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+        }
+        .carnation .petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center bottom;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            /* 花瓣形状 - 上宽下窄 */
+        }
+
+        /* 外层花瓣 - 浅粉 */
+        .carnation .petal-layer-outer .petal {
+            width: 28px;
+            height: 38px;
+            background: radial-gradient(ellipse at center, #ffcdd6 0%, #f8a5b8 50%, #f0889e 100%);
+            border-radius: 55% 55% 45% 45% / 45% 45% 55% 55%;
+            box-shadow: inset 0 -3px 6px rgba(180, 60, 80, 0.2), 0 1px 3px rgba(160, 60, 80, 0.15);
+            margin-left: -14px;
+            margin-top: -36px;
+        }
+        /* 中层花瓣 - 粉色 */
+        .carnation .petal-layer-middle .petal {
+            width: 22px;
+            height: 30px;
+            background: radial-gradient(ellipse at center, #f8b0bf 0%, #f07a93 50%, #e05572 100%);
+            border-radius: 55% 55% 45% 45% / 40% 40% 60% 60%;
+            box-shadow: inset 0 -2px 4px rgba(160, 40, 60, 0.25), 0 1px 2px rgba(150, 40, 60, 0.15);
+            margin-left: -11px;
+            margin-top: -28px;
+        }
+        /* 内层花瓣 - 深粉 */
+        .carnation .petal-layer-inner .petal {
+            width: 16px;
+            height: 22px;
+            background: radial-gradient(ellipse at center, #f090a5 0%, #e85572 50%, #d43d58 100%);
+            border-radius: 55% 55% 45% 45% / 38% 38% 62% 62%;
+            box-shadow: inset 0 -2px 3px rgba(140, 30, 45, 0.3);
+            margin-left: -8px;
+            margin-top: -20px;
+        }
+        /* 花心 */
+        .carnation .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #c9405a 0%, #9b2d40 60%, #6b1e2c 100%);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 0 8px rgba(160, 35, 50, 0.5), inset 0 1px 2px rgba(255, 200, 200, 0.3);
+        }
+        /* 花心纹理点 */
+        .carnation .flower-center::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 220, 220, 0.6);
+            border-radius: 50%;
+        }
+        .carnation .flower-center::before {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 200, 200, 0.4);
+            border-radius: 50%;
+        }
+
+        /* 花朵尺寸变体 */
+        .carnation.size-sm .bloom {
+            width: 55px;
+            height: 55px;
+        }
+        .carnation.size-sm .petal-layer-outer .petal {
+            width: 20px;
+            height: 28px;
+            margin-left: -10px;
+            margin-top: -26px;
+        }
+        .carnation.size-sm .petal-layer-middle .petal {
+            width: 16px;
+            height: 22px;
+            margin-left: -8px;
+            margin-top: -20px;
+        }
+        .carnation.size-sm .petal-layer-inner .petal {
+            width: 11px;
+            height: 16px;
+            margin-left: -5.5px;
+            margin-top: -15px;
+        }
+        .carnation.size-sm .flower-center {
+            width: 11px;
+            height: 11px;
+        }
+        .carnation.size-sm .stem-wrap {
+            bottom: -55px;
+            height: 60px;
+            width: 4px;
+        }
+        .carnation.size-sm .stem {
+            width: 3px;
+        }
+
+        .carnation.size-lg .bloom {
+            width: 110px;
+            height: 110px;
+        }
+        .carnation.size-lg .petal-layer-outer .petal {
+            width: 38px;
+            height: 50px;
+            margin-left: -19px;
+            margin-top: -47px;
+        }
+        .carnation.size-lg .petal-layer-middle .petal {
+            width: 30px;
+            height: 40px;
+            margin-left: -15px;
+            margin-top: -37px;
+        }
+        .carnation.size-lg .petal-layer-inner .petal {
+            width: 22px;
+            height: 30px;
+            margin-left: -11px;
+            margin-top: -28px;
+        }
+        .carnation.size-lg .flower-center {
+            width: 22px;
+            height: 22px;
+        }
+        .carnation.size-lg .stem-wrap {
+            bottom: -105px;
+            height: 115px;
+            width: 7px;
+        }
+        .carnation.size-lg .stem {
+            width: 5px;
+        }
+
+        /* 颜色变体 - 深红康乃馨 */
+        .carnation.color-deep .petal-layer-outer .petal {
+            background: radial-gradient(ellipse at center, #f8b0ba 0%, #e87080 50%, #d4455a 100%);
+        }
+        .carnation.color-deep .petal-layer-middle .petal {
+            background: radial-gradient(ellipse at center, #e8909d 0%, #d85568 50%, #c03048 100%);
+        }
+        .carnation.color-deep .petal-layer-inner .petal {
+            background: radial-gradient(ellipse at center, #d87080 0%, #c04055 50%, #9b2035 100%);
+        }
+        .carnation.color-deep .flower-center {
+            background: radial-gradient(circle, #b03040 0%, #7a1a28 60%, #4d1018 100%);
+        }
+
+        /* 颜色变体 - 白色粉边 */
+        .carnation.color-light .petal-layer-outer .petal {
+            background: radial-gradient(ellipse at center, #fff8f9 0%, #fde0e5 40%, #f8c4d0 100%);
+        }
+        .carnation.color-light .petal-layer-middle .petal {
+            background: radial-gradient(ellipse at center, #fff5f6 0%, #fcd8e0 50%, #f0a8b8 100%);
+        }
+        .carnation.color-light .petal-layer-inner .petal {
+            background: radial-gradient(ellipse at center, #fef0f2 0%, #f8c8d4 50%, #e890a2 100%);
+        }
+        .carnation.color-light .flower-center {
+            background: radial-gradient(circle, #e8a0ae 0%, #c87080 60%, #8b4050 100%);
+        }
+
+        /* 花朵摇摆动画 */
+        .carnation.sway {
+            animation: swayGentle 5s ease-in-out infinite;
+        }
+        .carnation.sway-fast {
+            animation: swayGentle 3.5s ease-in-out infinite;
+        }
+        .carnation.sway-slow {
+            animation: swayGentle 7s ease-in-out infinite;
+        }
+        @keyframes swayGentle {
+            0%,
+            100% {
+                transform: rotate(-2deg) translateY(0);
+            }
+            25% {
+                transform: rotate(1.5deg) translateY(-3px);
+            }
+            50% {
+                transform: rotate(2.5deg) translateY(0);
+            }
+            75% {
+                transform: rotate(-0.5deg) translateY(-2px);
+            }
+        }
+
+        /* ========== 中心内容 ========== */
+        .center-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 标题 */
+        .title-line {
+            font-size: clamp(2rem, 5.5vw, 3.8rem);
+            font-weight: 600;
+            color: #6b2d40;
+            letter-spacing: 0.06em;
+            text-shadow: 0 2px 8px rgba(200, 140, 160, 0.5), 0 0 30px rgba(255, 200, 210, 0.6), 0 0 60px rgba(255, 180, 200, 0.3);
+            animation: titleGlow 3s ease-in-out infinite;
+            line-height: 1.3;
+        }
+        @keyframes titleGlow {
+            0%,
+            100% {
+                text-shadow: 0 2px 8px rgba(200, 140, 160, 0.5), 0 0 30px rgba(255, 200, 210, 0.6), 0 0 60px rgba(255, 180, 200, 0.3);
+            }
+            50% {
+                text-shadow: 0 2px 12px rgba(200, 140, 160, 0.7), 0 0 45px rgba(255, 200, 210, 0.85), 0 0 80px rgba(255, 160, 190, 0.5), 0 0 100px rgba(255, 180, 200, 0.25);
+            }
+        }
+
+        /* "妈妈" 大字 */
+        .mom-highlight {
+            font-size: clamp(3.5rem, 9vw, 6.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #d4456a 0%, #e8758a 25%, #c83050 50%, #e06078 75%, #b8304f 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: momShine 3.5s ease-in-out infinite;
+            letter-spacing: 0.08em;
+            filter: drop-shadow(0 4px 12px rgba(200, 70, 100, 0.5));
+            line-height: 1.1;
+        }
+        @keyframes momShine {
+            0%,
+            100% {
+                background-position: 0% 50%;
+                filter: drop-shadow(0 4px 12px rgba(200, 70, 100, 0.5));
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: drop-shadow(0 6px 20px rgba(220, 80, 110, 0.75));
+            }
+        }
+
+        /* 分隔装饰 */
+        .divider-dots {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            opacity: 0.7;
+        }
+        .divider-dots .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d48090;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        .divider-dots .dot:nth-child(2) {
+            animation-delay: 0.3s;
+            width: 10px;
+            height: 10px;
+        }
+        .divider-dots .dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.8);
+                opacity: 1;
+            }
+        }
+
+        /* ========== 爱心 CSS ========== */
+        .heart-container {
+            position: relative;
+            z-index: 3;
+            margin-top: 8px;
+        }
+        .heart-main {
+            position: relative;
+            width: clamp(50px, 10vw, 75px);
+            height: clamp(45px, 9vw, 68px);
+            animation: heartPulse 1.2s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .heart-main:hover {
+            animation: heartPulseFast 0.6s ease-in-out infinite;
+            transform: scale(1.15);
+        }
+        .heart-main:active {
+            transform: scale(0.9);
+        }
+        .heart-main::before,
+        .heart-main::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 52%;
+            height: 80%;
+            background: #e63946;
+            border-radius: 50px 50px 0 0;
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.5), 0 0 40px rgba(230, 57, 70, 0.25);
+        }
+        .heart-main::before {
+            left: 50%;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        .heart-main::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        .heart-inner-glow {
+            position: absolute;
+            top: 18%;
+            left: 18%;
+            width: 25%;
+            height: 20%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            z-index: 2;
+            pointer-events: none;
+            animation: heartGlowShift 2s ease-in-out infinite;
+        }
+        @keyframes heartGlowShift {
+            0%,
+            100% {
+                top: 18%;
+                left: 18%;
+                opacity: 0.5;
+            }
+            50% {
+                top: 14%;
+                left: 22%;
+                opacity: 0.75;
+            }
+        }
+        @keyframes heartPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5));
+            }
+            14% {
+                transform: scale(1.12);
+                filter: drop-shadow(0 0 25px rgba(230, 57, 70, 0.7));
+            }
+            28% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5));
+            }
+            42% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.6));
+            }
+            70% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5));
+            }
+        }
+        @keyframes heartPulseFast {
+            0%,
+            100% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.6));
+            }
+            50% {
+                transform: scale(1.18);
+                filter: drop-shadow(0 0 35px rgba(230, 57, 70, 0.85));
+            }
+        }
+
+        /* 迷你爱心 */
+        .mini-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .mini-heart {
+            position: absolute;
+            width: 14px;
+            height: 13px;
+            animation: miniHeartFloat 8s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        .mini-heart::before,
+        .mini-heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 78%;
+            background: #f090a0;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 0 6px rgba(240, 130, 150, 0.4);
+        }
+        .mini-heart::before {
+            left: 48%;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        .mini-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        @keyframes miniHeartFloat {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+                opacity: 0.5;
+            }
+            30% {
+                transform: translateY(-40px) translateX(15px) rotate(10deg) scale(1.3);
+                opacity: 0.8;
+            }
+            60% {
+                transform: translateY(-70px) translateX(-10px) rotate(-8deg) scale(1);
+                opacity: 0.45;
+            }
+            100% {
+                transform: translateY(-100px) translateX(5px) rotate(3deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .carnation.size-lg .bloom {
+                width: 75px;
+                height: 75px;
+            }
+            .carnation.size-lg .petal-layer-outer .petal {
+                width: 26px;
+                height: 35px;
+                margin-left: -13px;
+                margin-top: -32px;
+            }
+            .carnation.size-lg .petal-layer-middle .petal {
+                width: 20px;
+                height: 28px;
+                margin-left: -10px;
+                margin-top: -25px;
+            }
+            .carnation.size-lg .petal-layer-inner .petal {
+                width: 15px;
+                height: 21px;
+                margin-left: -7.5px;
+                margin-top: -19px;
+            }
+            .carnation.size-lg .flower-center {
+                width: 15px;
+                height: 15px;
+            }
+            .carnation.size-lg .stem-wrap {
+                bottom: -70px;
+                height: 78px;
+                width: 5px;
+            }
+            .carnation.size-lg .stem {
+                width: 4px;
+            }
+            .title-line {
+                font-size: 1.8rem;
+            }
+            .mom-highlight {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .carnation {
+                transform: scale(0.7) !important;
+            }
+            .carnation:hover {
+                transform: scale(0.8) !important;
+            }
+            .title-line {
+                font-size: 1.5rem;
+            }
+            .mom-highlight {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景光斑 -->
+    <div class="bg-sparkles">
+        <span class="sparkle"></span><span class="sparkle"></span><span class="sparkle"></span>
+        <span class="sparkle"></span><span class="sparkle"></span><span class="sparkle"></span>
+        <span class="sparkle"></span><span class="sparkle"></span><span class="sparkle"></span>
+        <span class="sparkle"></span>
+    </div>
+
+    <!-- 飘落花瓣画布 -->
+    <canvas id="petalCanvas"></canvas>
+
+    <!-- 迷你爱心 -->
+    <div class="mini-hearts" id="miniHeartsContainer"></div>
+
+    <!-- 花朵容器 -->
+    <div class="flowers-wrapper" id="flowersWrapper"></div>
+
+    <!-- 中心内容 -->
+    <div class="main-container">
+        <div class="center-content">
+            <h1 class="title-line">母亲节快乐</h1>
+            <div class="divider-dots">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="mom-highlight">妈妈</span>
+            <div class="heart-container">
+                <div class="heart-main" id="mainHeart" title="❤️ 妈妈我爱你 ❤️">
+                    <div class="heart-inner-glow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ==================== 花朵位置配置 ====================
+            const flowerConfigs = [
+                { top: '8%', left: '8%', size: 'size-lg', color: '', sway: 'sway-slow', delay: 0 },
+                { top: '12%', left: '82%', size: 'size-lg', color: 'color-deep', sway: 'sway', delay: 0.5 },
+                { top: '70%', left: '6%', size: 'size-sm', color: 'color-light', sway: 'sway-fast', delay: 1 },
+                { top: '65%', left: '85%', size: 'size-sm', color: '', sway: 'sway-slow', delay: 1.5 },
+                { top: '40%', left: '92%', size: 'size-sm', color: 'color-deep', sway: 'sway', delay: 2 },
+                { top: '35%', left: '5%', size: 'size-sm', color: 'color-light', sway: 'sway-fast', delay: 2.5 },
+                { top: '78%', left: '40%', size: 'size-lg', color: 'color-deep', sway: 'sway', delay: 0.8 },
+                { top: '75%', left: '55%', size: 'size-sm', color: '', sway: 'sway-fast', delay: 1.8 },
+                { top: '20%', left: '45%', size: 'size-sm', color: 'color-light', sway: 'sway-slow', delay: 3 },
+                { top: '50%', left: '78%', size: 'size-sm', color: '', sway: 'sway', delay: 2.2 },
+                { top: '85%', left: '22%', size: 'size-sm', color: 'color-deep', sway: 'sway-fast', delay: 0.3 },
+            ];
+
+            // 移动端减少花朵
+            const isMobile = window.innerWidth <= 600;
+            const configsToUse = isMobile ?
+                flowerConfigs.filter((_, i) => i % 2 === 0).slice(0, 7) :
+                flowerConfigs;
+
+            const flowersWrapper = document.getElementById('flowersWrapper');
+
+            // 创建花朵DOM
+            function createCarnation(config) {
+                const wrapper = document.createElement('div');
+                wrapper.className = `carnation ${config.size} ${config.color} ${config.sway}`;
+                wrapper.style.top = config.top;
+                wrapper.style.left = config.left;
+                wrapper.style.animationDelay = `${config.delay}s`;
+                wrapper.setAttribute('data-delay', config.delay);
+
+                // 随机微调旋转
+                const baseRotation = (Math.random() - 0.5) * 20;
+                wrapper.style.transform = `rotate(${baseRotation}deg)`;
+
+                // 花瓣层
+                const petalLayers = [
+                    { className: 'petal-layer-outer', count: 10, offsetAngle: 0 },
+                    { className: 'petal-layer-middle', count: 8, offsetAngle: 18 },
+                    { className: 'petal-layer-inner', count: 7, offsetAngle: 8 },
+                ];
+
+                let bloomHTML = '<div class="bloom">';
+
+                petalLayers.forEach(layer => {
+                    bloomHTML += `<div class="petal-layer ${layer.className}">`;
+                    for (let i = 0; i < layer.count; i++) {
+                        const angle = (360 / layer.count) * i + layer.offsetAngle;
+                        bloomHTML +=
+                            `<div class="petal" style="transform: translate(-50%, -50%) rotate(${angle}deg);"></div>`;
+                    }
+                    bloomHTML += '</div>';
+                });
+
+                bloomHTML += '<div class="flower-center"></div>';
+                bloomHTML += '</div>';
+
+                // 花茎
+                bloomHTML += '<div class="stem-wrap"><div class="stem"></div></div>';
+
+                wrapper.innerHTML = bloomHTML;
+                return wrapper;
+            }
+
+            // 渲染所有花朵
+            configsToUse.forEach(config => {
+                const flower = createCarnation(config);
+                flowersWrapper.appendChild(flower);
+            });
+
+            // ==================== Canvas 飘落花瓣 ====================
+            const canvas = document.getElementById('petalCanvas');
+            const ctx = canvas.getContext('2d');
+            let petals = [];
+            const petalColors = [
+                '#ffc2cd', '#ffb3c1', '#f8a5b8', '#fcd5df', '#ffe0e6',
+                '#f090a5', '#f8bac8', '#ffd1da', '#fde4ea', '#fff0f3',
+                '#f48fb1', '#ffccd5', '#fec5d0', '#fff5f6',
+            ];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                // 重新调整花朵位置（简化：刷新页面时重新计算）
+            });
+
+            // 花瓣类
+            class Petal {
+                constructor() {
+                    this.reset(true);
+                }
+                reset(initial) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = initial ? Math.random() * canvas.height : -40 - Math.random() * 120;
+                    this.size = 8 + Math.random() * 18;
+                    this.widthRatio = 0.4 + Math.random() * 0.35; // 花瓣宽度比例
+                    this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+                    this.speedY = 0.4 + Math.random() * 1.6;
+                    this.speedX = -0.4 + Math.random() * 0.8;
+                    this.rotation = Math.random() * Math.PI * 2;
+                    this.rotationSpeed = (Math.random() - 0.5) * 0.03;
+                    this.wobbleAmp = 0.3 + Math.random() * 1.2;
+                    this.wobbleSpeed = 0.008 + Math.random() * 0.025;
+                    this.wobbleOffset = Math.random() * Math.PI * 2;
+                    this.opacity = 0.55 + Math.random() * 0.45;
+                    this.time = Math.random() * 100;
+                }
+                update() {
+                    this.time += 1;
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(this.time * this.wobbleSpeed + this.wobbleOffset) * this
+                    .wobbleAmp;
+                    this.rotation += this.rotationSpeed;
+                    // 重置到顶部
+                    if (this.y > canvas.height + 50) {
+                        this.y = -50 - Math.random() * 60;
+                        this.x = Math.random() * canvas.width;
+                    }
+                    // 水平循环
+                    if (this.x > canvas.width + 40) this.x = -40;
+                    if (this.x < -40) this.x = canvas.width + 40;
+                }
+                draw(ctx) {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation);
+
+                    // 绘制花瓣形状
+                    const w = this.size * this.widthRatio;
+                    const h = this.size;
+
+                    ctx.beginPath();
+                    // 使用贝塞尔曲线绘制花瓣
+                    ctx.moveTo(0, -h * 0.45);
+                    ctx.bezierCurveTo(w * 0.9, -h * 0.35, w * 1.05, h * 0.1, 0, h * 0.5);
+                    ctx.bezierCurveTo(-w * 1.05, h * 0.1, -w * 0.9, -h * 0.35, 0, -h * 0.45);
+                    ctx.closePath();
+
+                    // 渐变填充
+                    const gradient = ctx.createLinearGradient(0, -h * 0.4, 0, h * 0.5);
+                    gradient.addColorStop(0, this.color);
+                    gradient.addColorStop(1, this.color.replace('ff', 'e8').replace('fc', 'd8').replace('f8',
+                        'd4'));
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    // 细微边框
+                    ctx.strokeStyle = 'rgba(200,140,160,0.2)';
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+
+                    // 花瓣纹理线
+                    ctx.beginPath();
+                    ctx.moveTo(0, -h * 0.3);
+                    ctx.lineTo(0, h * 0.35);
+                    ctx.strokeStyle = 'rgba(200,130,150,0.15)';
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            }
+
+            // 初始化花瓣
+            const petalCount = isMobile ? 45 : 70;
+            for (let i = 0; i < petalCount; i++) {
+                petals.push(new Petal());
+            }
+
+            function animatePetals() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                petals.forEach(petal => {
+                    petal.update();
+                    petal.draw(ctx);
+                });
+                requestAnimationFrame(animatePetals);
+            }
+            animatePetals();
+
+            // ==================== 迷你爱心 ====================
+            const miniHeartsContainer = document.getElementById('miniHeartsContainer');
+            const miniHeartCount = isMobile ? 8 : 15;
+            for (let i = 0; i < miniHeartCount; i++) {
+                const mh = document.createElement('div');
+                mh.className = 'mini-heart';
+                mh.style.top = (10 + Math.random() * 80) + '%';
+                mh.style.left = (5 + Math.random() * 90) + '%';
+                mh.style.animationDelay = (Math.random() * 8) + 's';
+                mh.style.animationDuration = (6 + Math.random() * 10) + 's';
+                const scale = 0.5 + Math.random() * 1.5;
+                mh.style.transform = `scale(${scale})`;
+                miniHeartsContainer.appendChild(mh);
+            }
+
+            // ==================== 主爱心点击效果 ====================
+            const mainHeart = document.getElementById('mainHeart');
+            mainHeart.addEventListener('click', function(e) {
+                // 点击时爆发花瓣
+                burstPetals(e.clientX, e.clientY);
+                // 爱心短暂变亮
+                this.style.filter = 'drop-shadow(0 0 50px rgba(255,80,100,1)) brightness(1.3)';
+                setTimeout(() => {
+                    this.style.filter = '';
+                }, 300);
+            });
+
+            function burstPetals(cx, cy) {
+                const burstCount = 25;
+                const burstPetalsArr = [];
+                for (let i = 0; i < burstCount; i++) {
+                    const angle = (Math.PI * 2 / burstCount) * i + Math.random() * 0.3;
+                    const speed = 2 + Math.random() * 7;
+                    const p = {
+                        x: cx,
+                        y: cy,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed - 2,
+                        size: 6 + Math.random() * 14,
+                        widthRatio: 0.4 + Math.random() * 0.35,
+                        color: petalColors[Math.floor(Math.random() * petalColors.length)],
+                        rotation: Math.random() * Math.PI * 2,
+                        rotationSpeed: (Math.random() - 0.5) * 0.08,
+                        opacity: 0.9,
+                        life: 40 + Math.random() * 60,
+                        age: 0,
+                    };
+                    burstPetalsArr.push(p);
+                }
+                // 将爆发花瓣加入全局花瓣数组（临时）
+                const origLength = petals.length;
+                burstPetalsArr.forEach(bp => {
+                    const tempPetal = new Petal();
+                    tempPetal.x = bp.x;
+                    tempPetal.y = bp.y;
+                    tempPetal.size = bp.size;
+                    tempPetal.widthRatio = bp.widthRatio;
+                    tempPetal.color = bp.color;
+                    tempPetal.rotation = bp.rotation;
+                    tempPetal.rotationSpeed = bp.rotationSpeed;
+                    tempPetal.opacity = bp.opacity;
+                    tempPetal.speedY = bp.vy;
+                    tempPetal.speedX = bp.vx;
+                    tempPetal.wobbleAmp = 0.2;
+                    tempPetal.wobbleSpeed = 0.02;
+                    tempPetal.wobbleOffset = Math.random() * Math.PI * 2;
+                    tempPetal.time = Math.random() * 100;
+                    tempPetal._burstLife = bp.life;
+                    tempPetal._burstAge = 0;
+                    tempPetal._origOpacity = bp.opacity;
+                    petals.push(tempPetal);
+                });
+                // 逐渐移除爆发花瓣
+                const removeAfter = 2000;
+                setTimeout(() => {
+                    petals = petals.slice(0, origLength);
+                }, removeAfter);
+                // 在动画循环中处理透明度衰减
+                const decayBurst = () => {
+                    for (let i = origLength; i < petals.length; i++) {
+                        if (petals[i]._burstLife !== undefined) {
+                            petals[i]._burstAge++;
+                            petals[i].opacity = petals[i]._origOpacity * (1 - petals[i]._burstAge / petals[i]
+                                ._burstLife);
+                            petals[i].speedY += 0.08; // 重力
+                            petals[i].speedX *= 0.98;
+                        }
+                    }
+                    if (petals.length > origLength) {
+                        requestAnimationFrame(() => {
+                            decayBurst();
+                        });
+                    }
+                };
+                decayBurst();
+            }
+
+            // ==================== 触摸/点击花朵飘出花瓣 ====================
+            document.querySelectorAll('.carnation').forEach(flower => {
+                flower.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const rect = this.getBoundingClientRect();
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 3;
+                    burstPetals(cx, cy);
+                    // 花朵弹跳效果
+                    const origTransform = this.style.transform;
+                    this.style.transition = 'transform 0.15s cubic-bezier(0.34,1.56,0.64,1)';
+                    this.style.transform = (origTransform || '') + ' scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = origTransform;
+                        setTimeout(() => {
+                            this.style.transition =
+                                'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+                        }, 200);
+                    }, 150);
+                });
+            });
+
+            console.log('🌸 母亲节快乐，妈妈！ 🌸');
+            console.log('💖 愿天下所有的妈妈健康幸福！ 💖');
+            console.log('🌺 页面已就绪 - ' + configsToUse.length + ' 朵康乃馨 | ' + petalCount +
+                ' 片飘落花瓣 | ' + miniHeartCount + ' 颗小爱心');
+        })();
+    </script>
+</body>
+  </html>
